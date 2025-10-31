@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="sha" desc="Accelerator SHA" data_size="8" device_id="309" hls_tool="vivado_hls">
+    <param name="sha_n" desc="sha_n" />
+    <param name="sha_digest" desc="sha_digest" />
+    <param name="sha_blocksize" desc="sha_blocksize" />
+    <param name="sha_vsize" desc="sha_vsize" />
+  </accelerator>
+</sld>

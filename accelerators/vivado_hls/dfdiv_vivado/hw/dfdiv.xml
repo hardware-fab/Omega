@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="dfdiv" desc="Accelerator DFDIV" data_size="4" device_id="304" hls_tool="vivado_hls">
+    <param name="dfdiv_out" desc="dfdiv_out" />
+    <param name="dfdiv_in" desc="dfdiv_in" />
+    <param name="dfdiv_n" desc="dfdiv_n" />
+  </accelerator>
+</sld>

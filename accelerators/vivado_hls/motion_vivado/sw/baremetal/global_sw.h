@@ -1,0 +1,83 @@
+
+/*
++--------------------------------------------------------------------------+
+| CHStone : a suite of benchmark programs for C-based High-Level Synthesis |
+| ======================================================================== |
+|                                                                          |
+| * Collected and Modified : Y. Hara, H. Tomiyama, S. Honda,               |
+|                            H. Takada and K. Ishii                        |
+|                            Nagoya University, Japan                      |
+|                                                                          |
+| * Remark :                                                               |
+|    1. This source code is modified to unify the formats of the benchmark |
+|       programs in CHStone.                                               |
+|    2. Test vectors are added for CHStone.                                |
+|    3. If "main_result" is 0 at the end of the program, the program is    |
+|       correctly executed.                                                |
+|    4. Please follow the copyright of each benchmark program.             |
++--------------------------------------------------------------------------+
+*/
+/* global.h, global variables                                               */
+
+/* Copyright (C) 1996, MPEG Software Simulation Group. All Rights Reserved. */
+
+/*
+ * Disclaimer of Warranty
+ *
+ * These software programs are available to the user without any license fee or
+ * royalty on an "as is" basis.  The MPEG Software Simulation Group disclaims
+ * any and all warranties, whether express, implied, or statuary, including any
+ * implied warranties or merchantability or of fitness for a particular
+ * purpose.  In no event shall the copyright-holder be liable for any
+ * incidental, punitive, or consequential damages of any kind whatsoever
+ * arising from the use of these programs.
+ *
+ * This disclaimer of warranty extends to the user of these programs and user's
+ * customers, employees, agents, transferees, successors, and assigns.
+ *
+ * The MPEG Software Simulation Group does not represent or warrant that the
+ * programs furnished hereunder are free of infringement of any third-party
+ * patents.
+ *
+ * Commercial implementations of MPEG-1 and MPEG-2 video, including shareware,
+ * are subject to royalty fees to patent holders.  Many of these patents are
+ * general enough such that they are unavoidable regardless of implementation
+ * design.
+ *
+ */
+
+//#include "mpeg2dec.h" !!!!
+
+/* choose between declaration (GLOBAL undefined)
+ * and definition (GLOBAL defined)
+ * GLOBAL is defined in exactly one file mpeg2dec.c)
+ */
+#define NUM 2048
+#define _ANSI_ARGS_(x) x
+#define MV_FIELD 0
+
+/* Get_Bits.c */
+void Fill_Buffer_sw _ANSI_ARGS_ ((void));;
+unsigned int Show_Bits_sw _ANSI_ARGS_ ((int n));
+unsigned int Get_Bits1_sw _ANSI_ARGS_ ((void));
+void Flush_Buffer_sw _ANSI_ARGS_ ((int n));
+unsigned int Get_Bits_sw _ANSI_ARGS_ ((int n));
+int Get_Byte_sw _ANSI_ARGS_ ((void));
+
+/* getvlc.c */
+int Get_motion_code_sw _ANSI_ARGS_ ((void));
+int Get_dmvector_sw _ANSI_ARGS_ ((void));
+int Get_coded_block_pattern_sw _ANSI_ARGS_ ((void));
+
+
+/* motion.c */
+void motion_vectors_sw (int PMV[2][2][2], int dmvector[2], int motion_vertical_field_select[2][2], int s, int motion_vector_count, int mv_format, int h_r_size, int v_r_size, int dmv, int mvscale);
+void motion_vector_sw (int *PMV, int *dmvector, int h_r_size, int v_r_size, int dmv, int mvscale, int full_pel_vector);
+
+extern int System_Stream_Flag_sw;
+
+extern unsigned char inRdbfr_sw[NUM];
+extern unsigned char ld_Rdbfr_sw[2048];
+extern unsigned int ld_Rdptr_sw, ld_Rdmax_sw;
+extern unsigned int ld_Bfr_sw;
+extern int ld_Incnt_sw;

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="aes256" desc="Accelerator AES256" data_size="4" device_id="312" hls_tool="rtl">
+    <param name="aes256_keyReg7" desc="aes256_keyReg7" />
+    <param name="aes256_keyReg6" desc="aes256_keyReg6" />
+    <param name="aes256_keyReg5" desc="aes256_keyReg5" />
+    <param name="aes256_keyReg4" desc="aes256_keyReg4" />
+    <param name="aes256_keyReg3" desc="aes256_keyReg3" />
+    <param name="aes256_keyReg2" desc="aes256_keyReg2" />
+    <param name="aes256_keyReg1" desc="aes256_keyReg1" />
+    <param name="aes256_keyReg0" desc="aes256_keyReg0" />
+    <param name="aes256_blockWords" desc="aes256_blockWords" />
+    <param name="aes256_keyWords" desc="aes256_keyWords" />
+    <param name="aes256_n" desc="aes256_n" />
+  </accelerator>
+</sld>

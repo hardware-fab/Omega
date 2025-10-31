@@ -1,0 +1,282 @@
+------------------------------------------------------------------------------
+--  This file is a part of the VESPA SoC Prototyping Framework
+--
+--  This program is free software; you can redistribute it and/or modify
+--  it under the terms of the Apache 2.0 License.
+--
+-- File:    fpga_tile_io.vhd
+-- Authors: Gabriele Montanaro
+--          Andrea Galimberti
+--          Davide Zoni
+-- Company: Politecnico di Milano
+-- Mail:    name.surname@polimi.it
+--
+-- This file was originally part of the ESP project source code, available at:
+-- https://github.com/sld-columbia/esp
+------------------------------------------------------------------------------
+
+-- Copyright (c) 2011-2023 Columbia University, System Level Design Group
+-- SPDX-License-Identifier: Apache-2.0
+
+-----------------------------------------------------------------------------
+--  I/O tile.
+------------------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use work.esp_global.all;
+use work.amba.all;
+use work.stdlib.all;
+use work.sld_devices.all;
+use work.devices.all;
+use work.gencomp.all;
+use work.leon3.all;
+use work.uart.all;
+use work.misc.all;
+use work.net.all;
+-- pragma translate_off
+use work.sim.all;
+library unisim;
+use unisim.all;
+-- pragma translate_on
+use work.monitor_pkg.all;
+use work.esp_csr_pkg.all;
+use work.jtag_pkg.all;
+use work.sldacc.all;
+use work.nocpackage.all;
+use work.tile.all;
+use work.coretypes.all;
+use work.grlib_config.all;
+use work.socmap.all;
+use work.ariane_esp_pkg.all;
+use work.tiles_pkg.all;
+
+entity fpga_tile_io is
+  generic (
+    SIMULATION   : boolean   := false;
+    ROUTER_PORTS : ports_vec := "11111";
+    HAS_SYNC     : integer range 0 to 1 := 1
+    );
+  port (
+    rstn_sys           : in  std_ulogic;
+    clk_sys            : in  std_ulogic;
+    rstn_noc           : in  std_ulogic;
+    clk_noc            : in  std_ulogic;
+    lock_rstn_tile     : in  std_ulogic;
+    -- Ethernet
+    mdcscaler          : out   integer range 0 to 2047;
+    -- UART
+    uart_rxd           : in    std_ulogic;
+    uart_txd           : out   std_ulogic;
+    uart_ctsn          : in    std_ulogic;
+    uart_rtsn          : out   std_ulogic;
+    -- Test interface
+    tdi                : in    std_logic;
+    tdo                : out   std_logic;
+    tms                : in    std_logic;
+    tclk               : in    std_logic;
+    -- NOC
+    noc_data_n_in     : in  noc_flit_vector;
+    noc_data_s_in     : in  noc_flit_vector;
+    noc_data_w_in     : in  noc_flit_vector;
+    noc_data_e_in     : in  noc_flit_vector;
+    noc_data_void_in  : in  partial_handshake_vector;
+    noc_stop_in       : in  partial_handshake_vector;
+    noc_data_n_out    : out noc_flit_vector;
+    noc_data_s_out    : out noc_flit_vector;
+    noc_data_w_out    : out noc_flit_vector;
+    noc_data_e_out    : out noc_flit_vector;
+    noc_data_void_out : out partial_handshake_vector;
+    noc_stop_out      : out partial_handshake_vector;
+    noc_mon_noc_vec   : out monitor_noc_vector(num_noc_planes-1 downto 0);
+    --External reset
+    rst_ext_out       : out std_ulogic;
+    --DFS frequency info
+    freq_data_out     : out freq_reg_t;    --GM change: number describing freq
+    freq_valid_out    : out std_logic_vector(domains_num - 1 downto 0)  --GM change: validity signal for freqs
+    );
+
+end;
+
+architecture rtl of fpga_tile_io is
+
+  -- Clock and reset
+  signal clk_tile     : std_ulogic;
+  signal rstn_tile    : std_ulogic;
+
+  attribute syn_keep                    : boolean;
+  attribute syn_preserve                : boolean;
+
+  signal this_local_x          : local_yx;
+  signal this_local_y          : local_yx;
+
+  -- DCO reset -> keeping the logic compliant with the asic flow
+  signal dco_rstn : std_ulogic;
+
+  -- Tile interface signals
+  signal test_output_port_s   : noc_flit_vector;
+  signal test_data_void_out_s : std_ulogic_vector(num_noc_planes-1 downto 0);
+  signal test_stop_in_s       : std_ulogic_vector(num_noc_planes-1 downto 0);
+  signal test_input_port_s    : noc_flit_vector;
+  signal test_data_void_in_s  : std_ulogic_vector(num_noc_planes-1 downto 0);
+  signal test_stop_out_s      : std_ulogic_vector(num_noc_planes-1 downto 0);
+
+  signal noc_mon_noc_vec_int  : monitor_noc_vector(num_noc_planes-1 downto 0);
+
+  -- Noc signals
+  signal noc_stop_in_s         : handshake_vector;
+  signal noc_stop_out_s        : handshake_vector;
+  signal noc_io_stop_in       : std_ulogic_vector(num_noc_planes-1 downto 0);
+  signal noc_io_stop_out      : std_ulogic_vector(num_noc_planes-1 downto 0);
+  signal noc_data_void_in_s    : handshake_vector;
+  signal noc_data_void_out_s   : handshake_vector;
+  signal noc_io_data_void_in  : std_ulogic_vector(num_noc_planes-1 downto 0);
+  signal noc_io_data_void_out : std_ulogic_vector(num_noc_planes-1 downto 0);
+  signal noc_input_port        : noc_flit_vector;
+  signal noc_output_port       : noc_flit_vector;
+
+  attribute keep              : string;
+  attribute keep of noc_io_stop_in       : signal is "true";
+  attribute keep of noc_io_stop_out      : signal is "true";
+  attribute keep of noc_io_data_void_in  : signal is "true";
+  attribute keep of noc_io_data_void_out : signal is "true";
+  attribute keep of noc_input_port        : signal is "true";
+  attribute keep of noc_output_port       : signal is "true";
+  attribute keep of noc_data_n_in     : signal is "true";
+  attribute keep of noc_data_s_in     : signal is "true";
+  attribute keep of noc_data_w_in     : signal is "true";
+  attribute keep of noc_data_e_in     : signal is "true";
+  attribute keep of noc_data_void_in  : signal is "true";
+  attribute keep of noc_stop_in       : signal is "true";
+  attribute keep of noc_data_n_out    : signal is "true";
+  attribute keep of noc_data_s_out    : signal is "true";
+  attribute keep of noc_data_w_out    : signal is "true";
+  attribute keep of noc_data_e_out    : signal is "true";
+  attribute keep of noc_data_void_out : signal is "true";
+  attribute keep of noc_stop_out      : signal is "true";
+
+
+begin
+
+  clk_tile <= clk_sys;
+
+  -- Tile reset: the system reset is synchronized with the local clock
+  tile_reset: rstgen
+    generic map(acthigh => 0, syncin => 0)
+    port map (rstn_sys, clk_tile, lock_rstn_tile, rstn_tile, open);
+
+
+  noc_mon_noc_vec <= noc_mon_noc_vec_int;
+
+  -----------------------------------------------------------------------------
+  -- JTAG for single tile testing / bypass when test_if_en = 0 (GM change: bypass jtag)
+  -----------------------------------------------------------------------------
+  noc_io_stop_in <= test_stop_in_s;
+  test_output_port_s <= noc_output_port;
+  test_data_void_out_s <= noc_io_data_void_out;
+  test_stop_out_s <= noc_io_stop_out;
+  noc_input_port <= test_input_port_s;
+  noc_io_data_void_in <= test_data_void_in_s;
+
+  tdo <= '0';
+
+  -----------------------------------------------------------------------------
+  -- NOC Connections
+  ----------------------------------------------------------------------------
+  connections_generation: for plane in 0 to num_noc_planes-1 generate
+    noc_stop_in_s(plane)         <= noc_io_stop_in(plane)  & noc_stop_in(plane);
+    noc_stop_out(plane)          <= noc_stop_out_s(plane)(3 downto 0);
+    noc_io_stop_out(plane)      <= noc_stop_out_s(plane)(4);
+    noc_data_void_in_s(plane)    <= noc_io_data_void_in(plane) & noc_data_void_in(plane);
+    noc_data_void_out(plane)     <= noc_data_void_out_s(plane)(3 downto 0);
+    noc_io_data_void_out(plane) <= noc_data_void_out_s(plane)(4);
+  end generate connections_generation;
+
+  sync_noc_set_io: sync_noc_set
+  generic map (
+     PORTS    => ROUTER_PORTS,
+     HAS_SYNC => HAS_SYNC )
+   port map (
+     clk                => clk_noc,
+     clk_tile           => clk_tile,
+     rst                => rstn_noc,
+     rst_tile           => rstn_tile,
+     CONST_local_x      => this_local_x,
+     CONST_local_y      => this_local_y,
+     noc_data_n_in     => noc_data_n_in,
+     noc_data_s_in     => noc_data_s_in,
+     noc_data_w_in     => noc_data_w_in,
+     noc_data_e_in     => noc_data_e_in,
+     noc_input_port    => noc_input_port,
+     noc_data_void_in  => noc_data_void_in_s,
+     noc_stop_in       => noc_stop_in_s,
+     noc_data_n_out    => noc_data_n_out,
+     noc_data_s_out    => noc_data_s_out,
+     noc_data_w_out    => noc_data_w_out,
+     noc_data_e_out    => noc_data_e_out,
+     noc_output_port   => noc_output_port,
+     noc_data_void_out => noc_data_void_out_s,
+     noc_stop_out      => noc_stop_out_s,
+     noc_mon_noc_vec   => noc_mon_noc_vec_int
+     );
+
+  -----------------------------------------------------------------------------
+  -- Tile
+  -----------------------------------------------------------------------------
+  tile_io_1 : tile_io
+    generic map (
+      SIMULATION   => SIMULATION,
+      this_has_dco => 0
+    )
+    port map (
+      rstn_sys           => rstn_tile,
+      clk_sys            => clk_tile,
+      local_x            => this_local_x,
+      local_y            => this_local_y,
+      -- Ethernet MDC Scaler configuration
+      mdcscaler          => mdcscaler,
+      -- Ethernet
+      eth0_apbi          => open,
+      eth0_apbo          => apb_none,
+      sgmii0_apbi        => open,
+      sgmii0_apbo        => apb_none,
+      eth0_ahbmi         => open,
+      eth0_ahbmo         => ahbm_none,
+      edcl_ahbmo         => ahbm_none,
+      -- DVI
+      dvi_apbi           => open,
+      dvi_apbo           => apb_none,
+      dvi_ahbmi          => open,
+      dvi_ahbmo          => ahbm_none,
+      -- UART
+      uart_rxd           => uart_rxd,
+      uart_txd           => uart_txd,
+      uart_ctsn          => uart_ctsn,
+      uart_rtsn          => uart_rtsn,
+      -- I/O link
+      iolink_data_oen    => open,
+      iolink_data_in     => (others => '0'),
+      iolink_data_out    => open,
+      iolink_valid_in    => '0',
+      iolink_valid_out   => open,
+      iolink_clk_in      => '0',
+      iolink_clk_out     => open,
+      iolink_credit_in   => '0',
+      iolink_credit_out  => open,
+      -- Pad configuration
+      pad_cfg            => open,
+      -- NOC
+      noc_mon_noc_vec   => noc_mon_noc_vec_int,
+      test_output_port   => test_output_port_s,
+      test_data_void_out => test_data_void_out_s,
+      test_stop_in       => test_stop_out_s,
+      test_input_port    => test_input_port_s,
+      test_data_void_in  => test_data_void_in_s,
+      test_stop_out      => test_stop_in_s,
+      rst_ext_out        => rst_ext_out,
+      freq_data_out      => freq_data_out,    --GM change: number describing freq
+      freq_valid_out     => freq_valid_out  --GM change: validity signal for freqs
+      );
+
+end;

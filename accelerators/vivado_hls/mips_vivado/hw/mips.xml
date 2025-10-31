@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="mips" desc="Accelerator MIPS" data_size="4" device_id="308" hls_tool="vivado_hls">
+    <param name="mips_out" desc="mips_out" />
+    <param name="mips_n" desc="mips_n" />
+    <param name="mips_in" desc="mips_in" />
+  </accelerator>
+</sld>

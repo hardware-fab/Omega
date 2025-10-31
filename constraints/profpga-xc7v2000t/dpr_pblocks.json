@@ -1,0 +1,290 @@
+{
+    "pblock_1": {
+        "SLICE": {
+            "start": "SLICE_X310Y155",
+            "end": "SLICE_X401Y294"
+            },
+        "DSP": {
+            "start": "DSP48_X5Y62",
+            "end": "DSP48_X6Y117"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X6Y62",
+            "end": "RAMB18_X7Y117"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X6Y31",
+            "end": "RAMB36_X7Y58"
+            }
+        },
+    "pblock_2": {
+        "SLICE": {
+            "start": "SLICE_X108Y155",
+            "end": "SLICE_X199Y294"
+            },
+        "DSP": {
+            "start": "DSP48_X2Y62",
+            "end": "DSP48_X4Y117"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X2Y62",
+            "end": "RAMB18_X3Y117"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X2Y31",
+            "end": "RAMB36_X3Y58"
+            }
+        },
+    "pblock_3": {
+        "SLICE": {
+            "start": "SLICE_X310Y305",
+            "end": "SLICE_X401Y444"
+            },
+        "DSP": {
+            "start": "DSP48_X5Y122",
+            "end": "DSP48_X6Y177"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X6Y122",
+            "end": "RAMB18_X7Y177"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X6Y61",
+            "end": "RAMB36_X7Y88"
+            }
+        },
+    "pblock_4": {
+        "SLICE": {
+            "start": "SLICE_X108Y305",
+            "end": "SLICE_X199Y444"
+            },
+        "DSP": {
+            "start": "DSP48_X2Y122",
+            "end": "DSP48_X4Y177"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X2Y122",
+            "end": "RAMB18_X3Y177"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X2Y61",
+            "end": "RAMB36_X3Y88"
+            }
+        },
+    "pblock_5": {
+        "SLICE": {
+            "start": "SLICE_X108Y455",
+            "end": "SLICE_X199Y594"
+            },
+        "DSP": {
+            "start": "DSP48_X2Y182",
+            "end": "DSP48_X4Y237"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X2Y182",
+            "end": "RAMB18_X3Y237"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X2Y91",
+            "end": "RAMB36_X3Y118"
+            }
+        },
+    "pblock_6": {
+        "SLICE": {
+            "start": "SLICE_X310Y455",
+            "end": "SLICE_X401Y594"
+            },
+        "DSP": {
+            "start": "DSP48_X5Y182",
+            "end": "DSP48_X6Y237"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X6Y182",
+            "end": "RAMB18_X7Y237"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X6Y91",
+            "end": "RAMB36_X7Y118"
+            }
+        },
+    "pblock_7": {
+        "SLICE": {
+            "start": "SLICE_X310Y5",
+            "end": "SLICE_X401Y144"
+            },
+        "DSP": {
+            "start": "DSP48_X5Y2",
+            "end": "DSP48_X6Y57"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X6Y2",
+            "end": "RAMB18_X7Y57"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X6Y1",
+            "end": "RAMB36_X7Y28"
+            }
+        },
+    "pblock_8": {
+        "SLICE": {
+            "start": "SLICE_X108Y5",
+            "end": "SLICE_X199Y144"
+            },
+        "DSP": {
+            "start": "DSP48_X2Y2",
+            "end": "DSP48_X4Y57"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X2Y2",
+            "end": "RAMB18_X3Y57"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X2Y1",
+            "end": "RAMB36_X3Y28"
+            }
+        },
+    "pblock_9": {
+        "SLICE": {
+            "start": "SLICE_X0Y155",
+            "end": "SLICE_X87Y294"
+            },
+        "DSP": {
+            "start": "DSP48_X0Y62",
+            "end": "DSP48_X1Y117"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X0Y62",
+            "end": "RAMB18_X1Y117"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X0Y31",
+            "end": "RAMB36_X1Y58"
+            }
+        },
+    "pblock_10": {
+        "SLICE": {
+            "start": "SLICE_X0Y305",
+            "end": "SLICE_X87Y444"
+            },
+        "DSP": {
+            "start": "DSP48_X0Y122",
+            "end": "DSP48_X1Y177"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X0Y122",
+            "end": "RAMB18_X1Y177"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X0Y61",
+            "end": "RAMB36_X1Y88"
+            }
+        },
+    "pblock_11": {
+        "SLICE": {
+            "start": "SLICE_X0Y455",
+            "end": "SLICE_X87Y594"
+            },
+        "DSP": {
+            "start": "DSP48_X0Y182",
+            "end": "DSP48_X1Y237"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X0Y182",
+            "end": "RAMB18_X1Y237"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X0Y91",
+            "end": "RAMB36_X1Y118"
+            }
+        },
+    "pblock_12": {
+        "SLICE": {
+            "start": "SLICE_X0Y5",
+            "end": "SLICE_X87Y144"
+            },
+        "DSP": {
+            "start": "DSP48_X0Y2",
+            "end": "DSP48_X1Y57"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X0Y2",
+            "end": "RAMB18_X1Y57"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X0Y1",
+            "end": "RAMB36_X1Y28"
+            }
+        },
+    "pblock_13": {
+        "SLICE": {
+            "start": "SLICE_X418Y5",
+            "end": "SLICE_X499Y144"
+            },
+        "DSP": {
+            "start": "DSP48_X7Y2",
+            "end": "DSP48_X8Y57"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X8Y2",
+            "end": "RAMB18_X8Y57"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X8Y1",
+            "end": "RAMB36_X8Y28"
+            }
+        },
+    "pblock_14": {
+        "SLICE": {
+            "start": "SLICE_X418Y155",
+            "end": "SLICE_X499Y294"
+            },
+        "DSP": {
+            "start": "DSP48_X7Y62",
+            "end": "DSP48_X8Y117"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X8Y62",
+            "end": "RAMB18_X8Y117"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X8Y31",
+            "end": "RAMB36_X8Y58"
+            }
+        },
+    "pblock_15": {
+        "SLICE": {
+            "start": "SLICE_X418Y305",
+            "end": "SLICE_X499Y444"
+            },
+        "DSP": {
+            "start": "DSP48_X7Y122",
+            "end": "DSP48_X8Y177"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X8Y122",
+            "end": "RAMB18_X8Y177"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X8Y61",
+            "end": "RAMB36_X8Y88"
+            }
+        },
+    "pblock_16": {
+        "SLICE": {
+            "start": "SLICE_X418Y455",
+            "end": "SLICE_X499Y594"
+            },
+        "DSP": {
+            "start": "DSP48_X7Y182",
+            "end": "DSP48_X8Y237"
+            },
+        "RAMB18": {
+            "start": "RAMB18_X8Y182",
+            "end": "RAMB18_X8Y237"
+            },
+        "RAMB36": {
+            "start": "RAMB36_X8Y91",
+            "end": "RAMB36_X8Y118"
+            }
+        }
+}

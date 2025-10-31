@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="blowfish" desc="Accelerator BLOWFISH" data_size="4" device_id="302" hls_tool="vivado_hls">
+    <param name="blowfish_size" desc="blowfish_size" />
+    <param name="blowfish_n" desc="blowfish_n" />
+  </accelerator>
+</sld>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="motion" desc="Accelerator MOTION" data_size="4" device_id="30a" hls_tool="vivado_hls">
+    <param name="motion_pwm" desc="motion_pwm" />
+    <param name="motion_n" desc="motion_n" />
+    <param name="motion_rdbfr" desc="motion_rdbfr" />
+    <param name="motion_mvfs" desc="motion_mvfs" />
+  </accelerator>
+</sld>

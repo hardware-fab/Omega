@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="generic_tb" desc="Accelerator GENERIC_TB" data_size="4" device_id="200" hls_tool="rtl">
+    <param name="reg2" desc="reg2" />
+    <param name="generic_tb_n" desc="generic_tb_n" />
+    <param name="reg0" desc="reg0" />
+  </accelerator>
+</sld>

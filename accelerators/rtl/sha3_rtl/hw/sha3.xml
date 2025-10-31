@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld>
+  <accelerator name="sha3" desc="Accelerator SHA3" data_size="16" device_id="311" hls_tool="rtl">
+    <param name="sha3_hash_len" desc="sha3_hash_len" />
+    <param name="sha3_n" desc="sha3_n" />
+    <param name="sha3_message_len" desc="sha3_message_len" />
+  </accelerator>
+</sld>
