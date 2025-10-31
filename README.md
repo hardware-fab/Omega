@@ -1,3 +1,26 @@
+# Omega: A Hardware-Software Framework for Complete Design Space Exploration of FPGA-Based Heterogeneous Multi-Core SoCs
+
+The design space exploration (DSE) of heterogeneous multi-core systems-on-chip (SoCs)
+presents a massive challenge due to the vast and complex configuration space,
+demanding simultaneous optimization of performance, energy efficiency,
+and resource utilization under diverse constraints.
+Traditional approaches leveraging analytical models, heuristics,
+and machine learning (ML) techniques fail to comprehensively cover this space,
+often yielding suboptimal solutions.
+The Omega framework, designed for exhaustive DSE of FPGA-based heterogeneous multi-core SoCs,
+addresses the former limitations by fully exploring the design space and
+guaranteeing the identification of globally optimal configurations.
+Omega leverages FPGAs' dynamic partial reconfiguration to accelerate the DSE drastically and
+can serve as a golden model for evaluating novel DSE heuristics and ML methods.
+This manuscript demonstrates the proposed framework’s effectiveness through
+an extensive experimental campaign on 16-core SoCs with accelerators for up to five different applications,
+achieving a substantial speedup, of 29 times on average, compared to
+traditional techniques while ensuring solution optimality.
+Omega is released as a comprehensive open-source ecosystem,
+compatible with commercially available FPGA platforms, to facilitate future research and practical adoption,
+setting a new benchmark for DSE methodologies and providing
+a robust tool for optimizing next-generation computing platforms.
+
 ## Repository organization
 
 Here is a brief description of the main directories in the repository,
@@ -37,3 +60,38 @@ please refer to the READMEs inside each of them for more information.
 
 * `.cache` caches some compiled libraries so they only need to be
   compiled once (e.g. Xilinx simulation libraries).
+
+
+## Get started
+
+The Omega framework is based on the open-source SoC prototyping platform
+ESP. The main commands are identical, so please refer to
+their [Documentation page](https://www.esp.cs.columbia.edu/docs/) for a
+tutorial on how to get started with this framework. The more advanced techniques
+for DSE can be retrieved under the `tools/dse` folder.
+
+
+## Publications
+
+Omega is presented in our overview paper:
+
+> Gabriele Montanaro, Andrea Galimberti, and Davide Zoni, _"Omega: A Hardware-Software
+> Framework for Complete Design Space Exploration of FPGA-Based Heterogeneous
+> Multi-Core SoCs,"_ in IEEE Transactions on Computers
+
+DOI: [10.1109/TC.2025.362470](10.1109/TC.2025.362470)
+
+If you have used Omega in your research, you can cite us:
+
+```
+@ARTICLE{11216106,
+  author={Montanaro, Gabriele and Galimberti, Andrea and Zoni, Davide},
+  journal={IEEE Transactions on Computers},
+  title={Omega: A Hardware-Software Framework for Complete Design Space Exploration of FPGA-Based Heterogeneous Multi-Core SoCs},
+  year={2025},
+  volume={},
+  number={},
+  pages={1-13},
+  keywords={Field programmable gate arrays;Space exploration;Hardware acceleration;Optimization;Computer architecture;Computers;Central Processing Unit;Binary sequences;Multicore processing;Logic;design space exploration;system-on-chip;heterogeneous;multi-core;FPGA;dynamic partial reconfiguration},
+  doi={10.1109/TC.2025.3624704}}
+```
