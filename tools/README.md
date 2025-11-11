@@ -34,10 +34,5 @@ external communication with an ESP SoC.
   interface: the proFPGA quad Virtex7 Prototyping System and the
   proFPGA quad Virtex UltraScale Prototyping System.
 
-* **DSE** is a set of scripts for the automatization of the design
-  space exploration. It contains scripts that generate a certain
-  all the configurations for a given SoC type, scripts that execute
-  a series of implementations and on-board executions for a given
-  set of configurations, and scripts for a specific ML-based loop
-  that explores the most attractive configurations based on gaussian
-  predictors.
+* **DSE** is a set of scripts for the automation of the design
+  space exploration. 
